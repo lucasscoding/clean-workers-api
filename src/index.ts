@@ -1,3 +1,5 @@
 import 'module-alias/register'
 
-console.log('Hello World')
+export default function test(): any {
+  return 2
+}
