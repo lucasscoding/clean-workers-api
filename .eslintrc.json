@@ -1,0 +1,16 @@
+{
+    "extends": "standard-with-typescript",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "@typescript-eslint/strict-boolean-expressions": "Off",
+        "@typescript-eslint/consistent-type-definitions": "Off",
+        "@typescript-eslint/method-signature-style": "Off",
+        "@typescript-eslint/array-type": "Off",
+        "@typescript-eslint/space-before-function-paren": "Off",
+        "@typescript-eslint/keyword-spacing": "Off",
+        "eqeqeq": "off",
+        "@typescript-eslint/no-misused-promises": "Off"
+    }
+}
