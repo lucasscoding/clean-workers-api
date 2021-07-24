@@ -11,6 +11,7 @@
         "@typescript-eslint/space-before-function-paren": "Off",
         "@typescript-eslint/keyword-spacing": "Off",
         "eqeqeq": "off",
-        "@typescript-eslint/no-misused-promises": "Off"
+        "@typescript-eslint/no-misused-promises": "Off",
+        "@typescript-eslint/promise-function-async": "Off"
     }
 }
