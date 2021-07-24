@@ -1,6 +1,5 @@
 import { UserModel } from '@/data/models'
 import { UserService } from '@/data/usecases'
-import { InvalidParamError } from '@/presentetion/errors'
 
 const makeSystemUnderTest = (): any => {
   const userMock: UserModel = {
