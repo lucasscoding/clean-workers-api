@@ -1,5 +1,6 @@
 import { UserModel } from '@/data/models'
 import { UserService } from '@/data/usecases'
+import { MongoRepository } from '@/infra/databases/mongo-db-repository'
 
 const makeSystemUnderTest = (): any => {
   const userMock: UserModel = {
@@ -8,7 +9,7 @@ const makeSystemUnderTest = (): any => {
     email: 'any_email'
   }
 
-  const mockUserService: UserService = new UserService()
+  const mockUserService: UserService = new UserService(new MongoRepository())
 
   return { userMock, mockUserService }
 }
@@ -24,6 +25,7 @@ describe('UserService', () => {
   it('should return erro if id not informed', async () => {
     const { mockUserService } = makeSystemUnderTest()
     const invalidId = null
-    await expect(() => mockUserService.loadOneUser(invalidId)).toThrow(/id/)
+    const user: UserModel = await mockUserService.loadOneUser(invalidId)
+    await expect(user).toBeNull()
   })
 })

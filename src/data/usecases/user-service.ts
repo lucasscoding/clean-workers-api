@@ -1,18 +1,17 @@
 import { UserModel } from '@/data/models'
 import { LoadUserProtocol } from '@/domain/protocols'
-import { InvalidParamError } from '@/presentetion/errors/invalid-param-error'
+import { LoadUserRepository } from '../protocols'
 
 export class UserService implements LoadUserProtocol {
-  loadOneUser(id: string): Promise<UserModel> {
-    if(!id) {
-      throw new InvalidParamError('id')
-    }
+  private readonly loadUserRepository: LoadUserRepository
 
-    const mock = {
-      id,
-      name: '',
-      email: ''
-    }
-    return new Promise((resolve, reject) => resolve(mock))
+  constructor(loadUserRepository: LoadUserRepository) {
+    this.loadUserRepository = loadUserRepository
+  }
+
+  loadOneUser(id: string): Promise<UserModel> {
+    if(!id) return null
+    const userLoad = this.loadUserRepository.findById(id)
+    return new Promise((resolve, reject) => resolve(userLoad))
   }
 }
