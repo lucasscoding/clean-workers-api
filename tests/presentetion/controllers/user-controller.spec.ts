@@ -1,6 +1,6 @@
 import { UserModel } from '@/data/models'
 import { UserService } from '@/data/usecases'
-import { MongoRepository } from '@/infra/databases/mongo-db-repository'
+import { MongoRepository } from '@/infra/databases'
 import { UserController } from '@/presentetion/controllers'
 
 const makeSystemUnderTest = (): any => {
