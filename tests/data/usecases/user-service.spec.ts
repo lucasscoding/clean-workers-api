@@ -26,15 +26,29 @@ describe('UserService', () => {
     const { mockUserService } = makeSystemUnderTest()
     const invalidId = null
     const user: UserModel = await mockUserService.findOne(invalidId)
-    await expect(user).toBeNull()
+    expect(user).toBeNull()
   })
 
-  it('sould save a anime with sucess', async () => {
+  it('should save a anime with sucess', async () => {
     const { userMock, mockUserService, mockMongoRepository } = makeSystemUnderTest()
     jest.spyOn(mockMongoRepository, 'save').mockResolvedValueOnce(userMock)
     const saveFromService = await mockUserService.save(userMock)
     expect(saveFromService).toBeTruthy()
     expect(saveFromService.name).toBe(userMock.name)
     expect(saveFromService.email).toBe(userMock.email)
+  })
+
+  it('should return null with invalid email', async () => {
+    const { userMock, mockUserService } = makeSystemUnderTest()
+    const userWithOutEmail = { ...userMock, email: null }
+    const invalidReturn = await mockUserService.save(userWithOutEmail)
+    expect(invalidReturn).toBeNull()
+  })
+
+  it('should return null with invalid name', async () => {
+    const { userMock, mockUserService } = makeSystemUnderTest()
+    const userWithOutName = { ...userMock, name: null }
+    const invalidReturn = await mockUserService.save(userWithOutName)
+    expect(invalidReturn).toBeNull()
   })
 })
