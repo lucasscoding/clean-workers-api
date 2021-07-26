@@ -9,7 +9,7 @@ export class UserService implements LoadUserProtocol {
     this.loadUserRepository = loadUserRepository
   }
 
-  async loadOneUser(id: string): Promise<UserModel> {
+  async findOne(id: string): Promise<UserModel> {
     if(!id) return null
     const userLoad = await this.loadUserRepository.findById(id)
     return userLoad

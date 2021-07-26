@@ -1,5 +1,5 @@
 import { User } from '@/domain/models'
 
 export interface LoadUserProtocol {
-  loadOneUser(id: string): Promise<User>
+  findOne(id: string): Promise<User>
 }

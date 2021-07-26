@@ -10,7 +10,7 @@ export class UserController {
   }
 
   async find(id: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.userService.loadOneUser(id)
+    const user = await this.userService.findOne(id)
     return Promise.resolve({
       statusCode: 200,
       body: user

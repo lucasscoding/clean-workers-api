@@ -17,7 +17,7 @@ const makeSystemUnderTest = (): any => {
 describe('User Controller', () => {
   it('should return 200 with correct id', async () => {
     const { userMock, mockUserController, mockUserService } = makeSystemUnderTest()
-    jest.spyOn(mockUserService, 'loadOneUser').mockResolvedValueOnce(userMock)
+    jest.spyOn(mockUserService, 'findOne').mockResolvedValueOnce(userMock)
     const httpResponse = await mockUserController.find(userMock.id)
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
