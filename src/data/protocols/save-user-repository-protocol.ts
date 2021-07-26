@@ -1,5 +1,5 @@
 import { UserModel } from '../models'
 
 export interface SaveUserRepository {
-  save(user: UserModel): UserModel
+  save(user: UserModel): Promise<UserModel>
 }

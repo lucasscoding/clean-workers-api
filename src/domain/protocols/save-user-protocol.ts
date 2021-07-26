@@ -1,5 +1,5 @@
-import { User } from '@/domain/models'
+import { UserModel } from '@/data/models'
 
 export interface SaveUserProtocol {
-  save(user: User): User
+  save(user: UserModel): Promise<UserModel>
 }
