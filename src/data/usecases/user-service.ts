@@ -11,9 +11,7 @@ export class UserService implements LoadUserProtocol, SaveUserProtocol {
   }
 
   async save(user: User): Promise<UserModel> {
-    if(!user.name || !user.email) {
-      return null
-    }
+    if(!user.name || !user.email) return null
     const savedUser = await this.userRepository.save(user)
     return savedUser
   }
