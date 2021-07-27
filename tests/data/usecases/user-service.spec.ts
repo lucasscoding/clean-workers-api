@@ -55,4 +55,13 @@ describe('UserService', () => {
     const invalidReturn = await mockUserService.save(userWithOutName)
     expect(invalidReturn).toBeNull()
   })
+
+  it('should return a list of user', async () => {
+    const { userMock, mockUserService, mockDatabase } = makeSystemUnderTest()
+    const mockList = Array(10).fill(userMock)
+    jest.spyOn(mockDatabase, 'findAll').mockResolvedValueOnce(mockList)
+    const users = await mockUserService.findAll()
+    expect(users).toBeTruthy()
+    expect(users.length).toBe(10)
+  })
 })
