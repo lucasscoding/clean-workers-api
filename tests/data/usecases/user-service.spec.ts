@@ -1,6 +1,6 @@
 import { UserModel } from '@/data/models'
 import { UserService } from '@/data/usecases'
-import { MongoRepository } from '@/infra/databases'
+import { DatabaseRepositoryStub } from '@/tests/data/mocks'
 
 const makeSystemUnderTest = (): any => {
   const userMock: UserModel = {
@@ -8,7 +8,7 @@ const makeSystemUnderTest = (): any => {
     name: 'any_name',
     email: 'any_email'
   }
-  const mockDatabase = new MongoRepository()
+  const mockDatabase = new DatabaseRepositoryStub()
   const mockUserService: UserService = new UserService(mockDatabase)
 
   return { userMock, mockUserService, mockDatabase }
