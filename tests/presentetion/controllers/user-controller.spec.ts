@@ -1,7 +1,6 @@
 import { UserModel } from '@/data/models'
-import { UserService } from '@/data/usecases'
-import { MongoRepository } from '@/infra/databases'
 import { UserController } from '@/presentetion/controllers'
+import { UserServiceStub } from '@/tests/data/mocks'
 
 const makeSystemUnderTest = (): any => {
   const userMock: UserModel = {
@@ -9,16 +8,16 @@ const makeSystemUnderTest = (): any => {
     name: 'any_name',
     email: 'any_email'
   }
-  const mockUserService = new UserService(new MongoRepository())
-  const mockUserController: UserController = new UserController(mockUserService)
-  return { userMock, mockUserController, mockUserService }
+  const userServiceStub = new UserServiceStub()
+  const userController: UserController = new UserController(userServiceStub)
+  return { userMock, userController, userServiceStub }
 }
 
 describe('User Controller', () => {
   it('should return 200 with correct id', async () => {
-    const { userMock, mockUserController, mockUserService } = makeSystemUnderTest()
-    jest.spyOn(mockUserService, 'findOne').mockResolvedValueOnce(userMock)
-    const httpResponse = await mockUserController.find(userMock.id)
+    const { userMock, userController, userServiceStub } = makeSystemUnderTest()
+    jest.spyOn(userServiceStub, 'findOne').mockResolvedValueOnce(userMock)
+    const httpResponse = await userController.find(userMock.id)
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body.id).toBe(userMock.id)
