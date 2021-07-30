@@ -14,9 +14,10 @@ const makeSystemUnderTest = (): any => {
   return { userMock, mockUserService, databaseRepositoryStub }
 }
 
+const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
+
 describe('UserService', () => {
   it('should load a user with the current id', async () => {
-    const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
     jest.spyOn(databaseRepositoryStub, 'findById').mockResolvedValueOnce(userMock)
     const user: UserModel = await mockUserService.findOne(userMock.id)
     expect(user).toBeTruthy()
@@ -24,7 +25,6 @@ describe('UserService', () => {
   })
 
   it('should return erro if id not informed', async () => {
-    const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
     const invalidId = null
     jest.spyOn(databaseRepositoryStub, 'findById').mockResolvedValueOnce(userMock)
     const user: UserModel = await mockUserService.findOne(invalidId)
@@ -32,7 +32,6 @@ describe('UserService', () => {
   })
 
   it('should save a anime with sucess', async () => {
-    const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
     jest.spyOn(databaseRepositoryStub, 'save').mockResolvedValueOnce(userMock)
     const saveFromService = await mockUserService.save(userMock)
     expect(saveFromService).toBeTruthy()
@@ -41,7 +40,6 @@ describe('UserService', () => {
   })
 
   it('should return null with invalid email', async () => {
-    const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
     jest.spyOn(databaseRepositoryStub, 'save').mockResolvedValueOnce(userMock)
     const userWithOutEmail = { ...userMock, email: null }
     const invalidReturn = await mockUserService.save(userWithOutEmail)
@@ -49,7 +47,6 @@ describe('UserService', () => {
   })
 
   it('should return null with invalid name', async () => {
-    const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
     jest.spyOn(databaseRepositoryStub, 'save').mockResolvedValueOnce(userMock)
     const userWithOutName = { ...userMock, name: null }
     const invalidReturn = await mockUserService.save(userWithOutName)
@@ -57,11 +54,18 @@ describe('UserService', () => {
   })
 
   it('should return a list of user', async () => {
-    const { userMock, mockUserService, databaseRepositoryStub } = makeSystemUnderTest()
     const mockList = Array(10).fill(userMock)
     jest.spyOn(databaseRepositoryStub, 'findAll').mockResolvedValueOnce(mockList)
     const users = await mockUserService.findAll()
     expect(users).toBeTruthy()
     expect(users.length).toBe(10)
+  })
+
+  it('should return a user by email', async () => {
+    jest.spyOn(databaseRepositoryStub, 'findByEmail').mockResolvedValueOnce(userMock)
+    const user = await mockUserService.findByEmail(userMock.email)
+    expect(user).toBeTruthy()
+    expect(user.name).toBe(userMock.name)
+    expect(user.email).toBe(userMock.email)
   })
 })

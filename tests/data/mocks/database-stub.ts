@@ -15,6 +15,6 @@ export class DatabaseRepositoryStub implements UserRepository {
   }
 
   findByEmail(email: string): Promise<UserModel> {
-    throw new Error('Method not implemented.')
+    return null
   }
 }
