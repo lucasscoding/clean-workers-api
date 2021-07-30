@@ -1,8 +1,8 @@
 import { UserModel } from '@/data/models'
-import { LoadUserRepository, SaveUserRepository } from '@/data/protocols'
+import { UserRepository } from '@/data/protocols'
 import { User } from '@/domain/models'
 
-export class MongoRepository implements LoadUserRepository, SaveUserRepository {
+export class MongoRepository implements UserRepository {
   findAll(): Promise<Array<UserModel>> {
     return null
   }
