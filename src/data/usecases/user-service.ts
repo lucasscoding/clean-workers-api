@@ -26,4 +26,8 @@ export class UserService implements LoadUserProtocol, SaveUserProtocol {
     const loadUser = await this.userRepository.findById(id)
     return loadUser
   }
+
+  findByEmail(email: string): Promise<User> {
+    throw new Error('Method not implemented.')
+  }
 }

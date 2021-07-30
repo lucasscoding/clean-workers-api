@@ -13,4 +13,8 @@ export class DatabaseRepositoryStub implements UserRepository {
   save(user: UserModel): Promise<UserModel> {
     return null
   }
+
+  findByEmail(email: string): Promise<UserModel> {
+    throw new Error('Method not implemented.')
+  }
 }

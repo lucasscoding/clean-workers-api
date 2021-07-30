@@ -1,5 +1,6 @@
 import { UserModel } from '@/data/models'
 import { LoadUserRepository, SaveUserRepository } from '@/data/protocols'
+import { User } from '@/domain/models'
 
 export class MongoRepository implements LoadUserRepository, SaveUserRepository {
   findAll(): Promise<Array<UserModel>> {
@@ -11,6 +12,10 @@ export class MongoRepository implements LoadUserRepository, SaveUserRepository {
   }
 
   findById(id: string): Promise<UserModel> {
+    return null
+  }
+
+  findByEmail(email: string): Promise<User> {
     return null
   }
 }
