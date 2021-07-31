@@ -39,18 +39,24 @@ describe('UserService', () => {
     expect(saveFromService.email).toBe(userMock.email)
   })
 
-  it('should return null with invalid email', async () => {
+  it('should return null when try save with invalid email', async () => {
     jest.spyOn(databaseRepositoryStub, 'save').mockResolvedValueOnce(userMock)
     const userWithOutEmail = { ...userMock, email: null }
     const invalidReturn = await mockUserService.save(userWithOutEmail)
     expect(invalidReturn).toBeNull()
   })
 
-  it('should return null with invalid name', async () => {
+  it('should return null when try save with invalid name', async () => {
     jest.spyOn(databaseRepositoryStub, 'save').mockResolvedValueOnce(userMock)
     const userWithOutName = { ...userMock, name: null }
     const invalidReturn = await mockUserService.save(userWithOutName)
     expect(invalidReturn).toBeNull()
+  })
+
+  it('sould return null if email already exist', async () => {
+    jest.spyOn(mockUserService, 'findByEmail').mockResolvedValueOnce(userMock)
+    const user = await mockUserService.save(userMock)
+    expect(user).toBeFalsy()
   })
 
   it('should return a list of user', async () => {
@@ -67,5 +73,10 @@ describe('UserService', () => {
     expect(user).toBeTruthy()
     expect(user.name).toBe(userMock.name)
     expect(user.email).toBe(userMock.email)
+  })
+
+  it('should return null with invalid email', async () => {
+    const user = await mockUserService.findByEmail(null)
+    expect(user).toBeFalsy()
   })
 })

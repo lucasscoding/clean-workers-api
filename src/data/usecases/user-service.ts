@@ -15,9 +15,14 @@ export class UserService implements LoadUserProtocol, SaveUserProtocol {
   }
 
   async save(user: UserModel): Promise<UserModel> {
-    if(!user.name || !user.email) return null
-    const saved = await this.userRepository.save(user)
-    return saved
+    if(user.name && user.email) {
+      const exist = await this.findByEmail(user.email)
+      if(!exist) {
+        const saved = await this.userRepository.save(user)
+        return saved
+      }
+    }
+    return null
   }
 
   async findOne(id: string): Promise<UserModel> {
@@ -27,6 +32,9 @@ export class UserService implements LoadUserProtocol, SaveUserProtocol {
   }
 
   async findByEmail(email: string): Promise<UserModel> {
+    if(!email) {
+      return null
+    }
     const user = await this.userRepository.findByEmail(email)
     return user
   }
