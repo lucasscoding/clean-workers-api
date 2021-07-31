@@ -2,7 +2,13 @@ import { UserModel } from '@/data/models'
 import { UserService } from '@/data/usecases'
 import { DatabaseRepositoryStub } from '@/tests/data/mocks'
 
-const makeSystemUnderTest = (): any => {
+type SystemUnderTest = {
+  mockUser: UserModel
+  databaseRepositoryStub: DatabaseRepositoryStub
+  mockUserService: UserService
+}
+
+const makeSystemUnderTest = (): SystemUnderTest => {
   const mockUser: UserModel = {
     id: '123',
     name: 'any_name',

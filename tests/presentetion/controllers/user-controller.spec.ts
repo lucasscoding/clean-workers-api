@@ -2,7 +2,13 @@ import { UserModel } from '@/data/models'
 import { UserController } from '@/presentetion/controllers'
 import { UserServiceStub } from '@/tests/data/mocks'
 
-const makeSystemUnderTest = (): any => {
+type SystemUnderTest = {
+  mockUser: UserModel
+  userController: UserController
+  userServiceStub: UserServiceStub
+}
+
+const makeSystemUnderTest = (): SystemUnderTest => {
   const mockUser: UserModel = {
     id: '123',
     name: 'any_name',
@@ -20,6 +26,6 @@ describe('User Controller', () => {
     const httpResponse = await userController.find(mockUser.id)
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body.id).toBe(mockUser.id)
+    expect(httpResponse.body).toMatchObject({ id: mockUser.id })
   })
 })
