@@ -26,16 +26,18 @@ export class UserService implements LoadUserProtocol, SaveUserProtocol {
   }
 
   async findOne(id: string): Promise<UserModel> {
-    if(!id) return null
-    const user = await this.userRepository.findById(id)
-    return user
+    if(id) {
+      const user = await this.userRepository.findById(id)
+      return user
+    }
+    return null
   }
 
   async findByEmail(email: string): Promise<UserModel> {
-    if(!email) {
-      return null
+    if(email) {
+      const user = await this.userRepository.findByEmail(email)
+      return user
     }
-    const user = await this.userRepository.findByEmail(email)
-    return user
+    return null
   }
 }
