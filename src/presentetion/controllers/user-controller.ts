@@ -16,4 +16,12 @@ export class UserController {
       body: user
     })
   }
+
+  async save(user: UserModel): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
+    const saved = await this.userService.save(user);
+    return Promise.resolve({
+      statusCode: 201,
+      body: saved
+    });
+  } 
 }
