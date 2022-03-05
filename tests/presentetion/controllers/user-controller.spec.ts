@@ -28,4 +28,13 @@ describe('User Controller', () => {
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toMatchObject({ id: mockUser.id })
   })
+
+  it('should return 201 when create a user', async () => {
+    const { mockUser, userController, userServiceStub } = makeSystemUnderTest()
+    jest.spyOn(userServiceStub, 'save').mockResolvedValueOnce(mockUser)
+    const httpResponse = await userController.save({...mockUser, id: null })
+    expect(httpResponse).toBeTruthy()
+    expect(httpResponse.statusCode).toBe(201)
+    expect(httpResponse.body).toMatchObject(mockUser)
+  })
 })
