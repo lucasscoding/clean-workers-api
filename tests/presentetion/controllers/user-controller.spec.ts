@@ -16,12 +16,13 @@ const systemUnderTest = (): SystemUnderTest => {
   }
   const userServiceStub = new UserServiceStub()
   const userController: UserController = new UserController(userServiceStub)
-  return { fakeUser: fakeUser, userController, userServiceStub }
+  return { fakeUser, userController, userServiceStub }
 }
+
+const { fakeUser, userController, userServiceStub } = systemUnderTest()
 
 describe('User Controller', () => {
   it('should return 200 with correct id', async () => {
-    const { fakeUser, userController, userServiceStub } = systemUnderTest()
     jest.spyOn(userServiceStub, 'findOne').mockResolvedValueOnce(fakeUser)
     const httpResponse = await userController.find(fakeUser.id)
     expect(httpResponse).toBeTruthy()
@@ -30,7 +31,6 @@ describe('User Controller', () => {
   })
 
   it('should return 201 when create a user', async () => {
-    const { fakeUser, userController, userServiceStub } = systemUnderTest()
     jest.spyOn(userServiceStub, 'save').mockResolvedValueOnce(fakeUser)
     const httpResponse = await userController.save({ ...fakeUser, id: null })
     expect(httpResponse).toBeTruthy()
@@ -39,7 +39,6 @@ describe('User Controller', () => {
   })
 
   it('should return 200 when find a user list', async () => {
-    const { fakeUser, userController, userServiceStub } = systemUnderTest()
     jest.spyOn(userServiceStub, 'findAll').mockResolvedValueOnce([fakeUser])
     const httpResponse = await userController.findAll()
     expect(httpResponse).toBeTruthy()
