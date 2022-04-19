@@ -24,4 +24,12 @@ export class UserController {
       body: saved
     })
   }
+
+  async findAll(): Promise<HttpResponse<Array<UserModel> | HttpResponseMessage>> {
+    const users = await this.userService.findAll()
+    return Promise.resolve({
+      statusCode: 200,
+      body: users
+    })
+  }
 }
