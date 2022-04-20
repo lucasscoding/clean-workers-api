@@ -1,6 +1,7 @@
 import { UserModel } from '@/data/models'
 import { UserService } from '@/data/usecases'
 import { DatabaseRepositoryStub } from '@/tests/data/mocks'
+import { faker } from '@faker-js/faker'
 
 type SystemUnderTest = {
   fakerUser: UserModel
@@ -10,9 +11,9 @@ type SystemUnderTest = {
 
 const systemUnderTest = (): SystemUnderTest => {
   const fakerUser: UserModel = {
-    id: '123',
-    name: 'any_name',
-    email: 'any_email'
+    id: faker.datatype.uuid(),
+    name: faker.name.findName(),
+    email: faker.internet.email()
   }
   const databaseRepositoryStub = new DatabaseRepositoryStub()
   const mockUserService: UserService = new UserService(databaseRepositoryStub)
