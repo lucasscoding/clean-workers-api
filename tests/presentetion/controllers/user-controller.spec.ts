@@ -12,7 +12,7 @@ type SystemUnderTest = {
 const systemUnderTest = (): SystemUnderTest => {
   const fakeUser: UserModel = {
     id: faker.datatype.uuid(),
-    name: faker.internet.userName(),
+    name: faker.name.findName(),
     email: faker.internet.email()
   }
   const userServiceStub = new UserServiceStub()
@@ -45,5 +45,13 @@ describe('User Controller', () => {
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toMatchObject([fakeUser])
+  })
+
+  it('should return 200 when find a user by email', async () => {
+    jest.spyOn(userServiceStub, 'findByEmail').mockResolvedValueOnce(fakeUser)
+    const httpResponse = await userController.findByEmail(fakeUser.email)
+    expect(httpResponse).toBeTruthy()
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toMatchObject(fakeUser)
   })
 })
