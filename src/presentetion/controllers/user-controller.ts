@@ -32,4 +32,12 @@ export class UserController {
       body: users
     })
   }
+
+  async findByEmail(email: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
+    const user = await this.userService.findByEmail(email)
+    return Promise.resolve({
+      statusCode: 200,
+      body: user
+    })
+  }
 }
