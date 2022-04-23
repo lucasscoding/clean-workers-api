@@ -4,28 +4,19 @@ import { UserController } from '@/presentetion/controllers'
 import { faker } from '@faker-js/faker'
 import { mock } from 'jest-mock-extended'
 
-type SystemUnderTest = {
-  fakeUser: UserModel
-  userController: UserController
-  loadUserService: LoadUserProtocol
-  saveUserService: SaveUserProtocol
-}
-
-const systemUnderTest = (): SystemUnderTest => {
-  const fakeUser: UserModel = {
-    id: faker.datatype.uuid(),
-    name: faker.name.findName(),
-    email: faker.internet.email()
-  }
-  const loadUserService = mock<LoadUserProtocol>()
-  const saveUserService = mock<SaveUserProtocol>()
-  const userController: UserController = new UserController(loadUserService, saveUserService)
-  return { fakeUser, userController, loadUserService, saveUserService }
-}
-
-const { fakeUser, userController, loadUserService, saveUserService } = systemUnderTest()
-
 describe('User Controller', () => {
+  let fakeUser: UserModel
+  let userController: UserController
+  let loadUserService: LoadUserProtocol
+  let saveUserService: SaveUserProtocol
+
+  beforeEach(() => {
+    fakeUser = { id: faker.datatype.uuid(), name: faker.name.findName(), email: faker.internet.email() }
+    loadUserService = mock<LoadUserProtocol>()
+    saveUserService = mock<SaveUserProtocol>()
+    userController = new UserController(loadUserService, saveUserService)
+  })
+
   it('should return 200 with correct id', async () => {
     jest.spyOn(loadUserService, 'findOne').mockResolvedValueOnce(fakeUser)
     const httpResponse = await userController.find(fakeUser.id)

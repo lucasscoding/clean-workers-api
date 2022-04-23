@@ -4,27 +4,17 @@ import { mock } from 'jest-mock-extended'
 import { faker } from '@faker-js/faker'
 import { UserRepository } from '../protocols'
 
-type SystemUnderTest = {
-  fakerUser: UserModel
-  databaseRepository: UserRepository
-  userService: UserService
-}
-
-const systemUnderTest = (): SystemUnderTest => {
-  const fakerUser: UserModel = {
-    id: faker.datatype.uuid(),
-    name: faker.name.findName(),
-    email: faker.internet.email()
-  }
-  const databaseRepository = mock<UserRepository>()
-  const userService: UserService = new UserService(databaseRepository)
-
-  return { fakerUser, userService, databaseRepository }
-}
-
-const { fakerUser, userService, databaseRepository } = systemUnderTest()
-
 describe('UserService', () => {
+  let databaseRepository: UserRepository
+  let userService: UserService
+  let fakerUser: UserModel
+
+  beforeEach(() => {
+    databaseRepository = mock<UserRepository>()
+    fakerUser = { id: faker.datatype.uuid(), name: faker.name.findName(), email: faker.internet.email() }
+    userService = new UserService(databaseRepository)
+  })
+
   it('should load a user with the current id', async () => {
     jest.spyOn(databaseRepository, 'findById').mockResolvedValueOnce(fakerUser)
     const result = await userService.findOne(fakerUser.id)
