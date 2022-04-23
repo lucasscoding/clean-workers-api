@@ -1,12 +1,14 @@
 import { UserModel } from '@/data/models'
-import { LoadUserProtocol } from '@/domain/protocols'
+import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
 import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
 
 export class UserController {
   private readonly userService: LoadUserProtocol
+  private readonly saveUserService: SaveUserProtocol
 
-  constructor(userService: LoadUserProtocol) {
+  constructor(userService: LoadUserProtocol, saveUserService: SaveUserProtocol) {
     this.userService = userService
+    this.saveUserService = saveUserService
   }
 
   async find(id: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
@@ -18,7 +20,7 @@ export class UserController {
   }
 
   async save(user: UserModel): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const saved = await this.userService.save(user)
+    const saved = await this.saveUserService.save({ user })
     return Promise.resolve({
       statusCode: 201,
       body: saved

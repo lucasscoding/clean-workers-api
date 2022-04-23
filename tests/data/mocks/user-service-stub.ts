@@ -1,17 +1,16 @@
-import { UserModel } from '@/data/models'
-import { User } from '@/domain/models'
 import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
+import { UserModel } from '@/data/models'
 
 export class UserServiceStub implements LoadUserProtocol, SaveUserProtocol {
-  findByEmail(email: string): Promise<User> {
+  findByEmail(email: string): Promise<UserModel> {
     return null
   }
 
-  async findAll(): Promise<Array<User>> {
+  async findAll(): Promise<Array<UserModel>> {
     return null
   }
 
-  async save(user: User): Promise<UserModel> {
+  async save(param: SaveUserProtocol.Params): Promise<SaveUserProtocol.Result> {
     return null
   }
 

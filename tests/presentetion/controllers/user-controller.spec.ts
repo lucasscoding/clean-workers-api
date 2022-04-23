@@ -16,7 +16,7 @@ const systemUnderTest = (): SystemUnderTest => {
     email: faker.internet.email()
   }
   const userServiceStub = new UserServiceStub()
-  const userController: UserController = new UserController(userServiceStub)
+  const userController: UserController = new UserController(userServiceStub, userServiceStub)
   return { fakeUser, userController, userServiceStub }
 }
 

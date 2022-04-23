@@ -14,11 +14,11 @@ export class UserService implements LoadUserProtocol, SaveUserProtocol {
     return list
   }
 
-  async save(user: UserModel): Promise<UserModel> {
-    if(user.name && user.email) {
-      const exist = await this.findByEmail(user.email)
+  async save(param: SaveUserProtocol.Params): Promise<SaveUserProtocol.Result> {
+    if(param.user.name && param.user.email) {
+      const exist = await this.findByEmail(param.user.email)
       if(!exist) {
-        const saved = await this.userRepository.save(user)
+        const saved = await this.userRepository.save(param.user)
         return saved
       }
     }
