@@ -15,8 +15,8 @@ export namespace SignUpController {
 export class SignUpController implements Controller {
   handle(httpRequest: SignUpController.Request): Promise<HttpResponse> {
     if(!httpRequest.email) {
-      return Promise.resolve(HttpHelper.badRequest(new MissingParamError('email')))
+      return HttpHelper.badRequest(new MissingParamError('email'))
     }
-    return Promise.resolve(HttpHelper.ok<UserModel>(null))
+    return HttpHelper.ok<UserModel>(null)
   }
 }

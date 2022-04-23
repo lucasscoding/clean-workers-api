@@ -1,12 +1,14 @@
 import { UserModel } from '@/data/models'
+import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
 import { UserController } from '@/presentetion/controllers'
-import { UserServiceStub } from '@/tests/data/mocks'
 import { faker } from '@faker-js/faker'
+import { mock } from 'jest-mock-extended'
 
 type SystemUnderTest = {
   fakeUser: UserModel
   userController: UserController
-  userServiceStub: UserServiceStub
+  loadUserService: LoadUserProtocol
+  saveUserService: SaveUserProtocol
 }
 
 const systemUnderTest = (): SystemUnderTest => {
@@ -15,16 +17,17 @@ const systemUnderTest = (): SystemUnderTest => {
     name: faker.name.findName(),
     email: faker.internet.email()
   }
-  const userServiceStub = new UserServiceStub()
-  const userController: UserController = new UserController(userServiceStub, userServiceStub)
-  return { fakeUser, userController, userServiceStub }
+  const loadUserService = mock<LoadUserProtocol>()
+  const saveUserService = mock<SaveUserProtocol>()
+  const userController: UserController = new UserController(loadUserService, saveUserService)
+  return { fakeUser, userController, loadUserService, saveUserService }
 }
 
-const { fakeUser, userController, userServiceStub } = systemUnderTest()
+const { fakeUser, userController, loadUserService, saveUserService } = systemUnderTest()
 
 describe('User Controller', () => {
   it('should return 200 with correct id', async () => {
-    jest.spyOn(userServiceStub, 'findOne').mockResolvedValueOnce(fakeUser)
+    jest.spyOn(loadUserService, 'findOne').mockResolvedValueOnce(fakeUser)
     const httpResponse = await userController.find(fakeUser.id)
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
@@ -32,7 +35,7 @@ describe('User Controller', () => {
   })
 
   it('should return 201 when create a user', async () => {
-    jest.spyOn(userServiceStub, 'save').mockResolvedValueOnce(fakeUser)
+    jest.spyOn(saveUserService, 'save').mockResolvedValueOnce(fakeUser)
     const httpResponse = await userController.save({ ...fakeUser, id: null })
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(201)
@@ -40,7 +43,7 @@ describe('User Controller', () => {
   })
 
   it('should return 200 when find a user list', async () => {
-    jest.spyOn(userServiceStub, 'findAll').mockResolvedValueOnce([fakeUser])
+    jest.spyOn(loadUserService, 'findAll').mockResolvedValueOnce([fakeUser])
     const httpResponse = await userController.findAll()
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
@@ -48,7 +51,7 @@ describe('User Controller', () => {
   })
 
   it('should return 200 when find a user by email', async () => {
-    jest.spyOn(userServiceStub, 'findByEmail').mockResolvedValueOnce(fakeUser)
+    jest.spyOn(loadUserService, 'findByEmail').mockResolvedValueOnce(fakeUser)
     const httpResponse = await userController.findByEmail(fakeUser.email)
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)

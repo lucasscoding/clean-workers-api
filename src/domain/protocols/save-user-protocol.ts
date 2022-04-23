@@ -8,5 +8,5 @@ export namespace SaveUserProtocol {
 }
 
 export interface SaveUserProtocol {
-  save(param: SaveUserProtocol.Params): Promise<SaveUserProtocol.Result>
+  save(params: SaveUserProtocol.Params): Promise<SaveUserProtocol.Result>
 }
