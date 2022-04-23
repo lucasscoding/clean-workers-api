@@ -14,6 +14,7 @@
         "@typescript-eslint/no-misused-promises": "Off",
         "@typescript-eslint/promise-function-async": "Off",
         "@typescript-eslint/return-await": "Off",
-        "@typescript-eslint/no-namespace": "Off"
+        "@typescript-eslint/no-namespace": "Off",
+        "@typescript-eslint/no-extraneous-class": "Off"
     }
 }

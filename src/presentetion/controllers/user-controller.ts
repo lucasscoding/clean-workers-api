@@ -3,16 +3,16 @@ import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
 import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
 
 export class UserController {
-  private readonly userService: LoadUserProtocol
+  private readonly loadUserService: LoadUserProtocol
   private readonly saveUserService: SaveUserProtocol
 
-  constructor(userService: LoadUserProtocol, saveUserService: SaveUserProtocol) {
-    this.userService = userService
+  constructor(loadUserService: LoadUserProtocol, saveUserService: SaveUserProtocol) {
+    this.loadUserService = loadUserService
     this.saveUserService = saveUserService
   }
 
   async find(id: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.userService.findOne(id)
+    const user = await this.loadUserService.findOne(id)
     return Promise.resolve({
       statusCode: 200,
       body: user
@@ -28,7 +28,7 @@ export class UserController {
   }
 
   async findAll(): Promise<HttpResponse<Array<UserModel> | HttpResponseMessage>> {
-    const users = await this.userService.findAll()
+    const users = await this.loadUserService.findAll()
     return Promise.resolve({
       statusCode: 200,
       body: users
@@ -36,7 +36,7 @@ export class UserController {
   }
 
   async findByEmail(email: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.userService.findByEmail(email)
+    const user = await this.loadUserService.findByEmail(email)
     return Promise.resolve({
       statusCode: 200,
       body: user

@@ -1,5 +1,5 @@
 import { SignUpController } from '@/presentetion/controllers'
-import { InvalidParamError } from '@/presentetion/errors'
+import { MissingParamError } from '@/presentetion/errors'
 import { UserModel } from '@/data/models'
 import faker from '@faker-js/faker'
 import { HttpRequest } from '../models'
@@ -21,6 +21,6 @@ describe('SignUpController', () => {
     const result = controller.handle(request)
     expect(result).toBeTruthy()
     expect(result.statusCode).toBe(400)
-    expect(result.body).toEqual(new InvalidParamError('email'))
+    expect(result.body).toEqual(new MissingParamError('email'))
   })
 })
