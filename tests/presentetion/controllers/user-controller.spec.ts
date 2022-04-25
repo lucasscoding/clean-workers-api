@@ -3,6 +3,7 @@ import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
 import { UserController } from '@/presentetion/controllers'
 import { faker } from '@faker-js/faker'
 import { mock } from 'jest-mock-extended'
+import { InvalidParamError } from '@/presentetion/errors'
 
 describe('User Controller', () => {
   let fakeUser: UserModel
@@ -11,7 +12,7 @@ describe('User Controller', () => {
   let saveUserService: SaveUserProtocol
 
   beforeEach(() => {
-    fakeUser = { id: faker.datatype.uuid(), name: faker.name.findName(), email: faker.internet.email() }
+    fakeUser = { id: faker.datatype.uuid(), name: faker.name.findName(), email: faker.internet.email(), password: faker.internet.password() }
     loadUserService = mock<LoadUserProtocol>()
     saveUserService = mock<SaveUserProtocol>()
     userController = new UserController(loadUserService, saveUserService)
@@ -47,5 +48,26 @@ describe('User Controller', () => {
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toMatchObject(fakeUser)
+  })
+
+  it('should return 400 if name is missing', async () => {
+    const result = await userController.save({ ...fakeUser, name: null })
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toEqual(new InvalidParamError('name'))
+  })
+
+  it('should return 400 if email is missing', async () => {
+    const result = await userController.save({ ...fakeUser, email: null })
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toEqual(new InvalidParamError('email'))
+  })
+
+  it('should return 400 if password is missing', async () => {
+    const result = await userController.save({ ...fakeUser, password: null })
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toEqual(new InvalidParamError('password'))
   })
 })

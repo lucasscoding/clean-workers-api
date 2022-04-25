@@ -12,8 +12,14 @@ describe('SignUpController', () => {
 
   beforeEach(() => {
     userService = mock()
-    fakeRequest = { name: faker.name.findName(), email: faker.internet.email(), password: faker.internet.password() }
+    fakeRequest = { email: faker.internet.email(), password: faker.internet.password() }
     signUpController = new SignUpController(userService)
+  })
+
+  it('should return 200 when user sign up', async () => {
+    const result = await signUpController.handle(fakeRequest)
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(200)
   })
 
   it('should return 400 if email is missing', async () => {
@@ -21,5 +27,12 @@ describe('SignUpController', () => {
     expect(result).toBeTruthy()
     expect(result.statusCode).toBe(400)
     expect(result.body).toEqual(new MissingParamError('email'))
+  })
+
+  it('should return 400 if password is missing', async () => {
+    const result = await signUpController.handle({ ...fakeRequest, password: null })
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toEqual(new MissingParamError('password'))
   })
 })
