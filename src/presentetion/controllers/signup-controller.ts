@@ -1,6 +1,4 @@
 import { ISignUpController } from '@/presentetion/protocol'
-import { HttpResponse } from '@/presentetion/models'
-import { UserModel } from '@/data/models'
 import { MissingParamError } from '@/presentetion/errors'
 import { HttpHelper } from '@/presentetion/helpers'
 import { UserService } from '@/data/usecases'
@@ -12,13 +10,16 @@ export class SignUpController implements ISignUpController {
     this.userService = userService
   }
 
-  handle(httpRequest: ISignUpController.Request): Promise<HttpResponse> {
+  async handle(httpRequest: ISignUpController.Request): Promise<ISignUpController.Result> {
     const checks = ['email', 'name', 'password']
     for(const param of checks) {
       if(!httpRequest[param]) {
         return HttpHelper.badRequest(new MissingParamError(param))
       }
     }
-    return HttpHelper.ok<UserModel>(null)
+    const { name, email, password } = httpRequest
+    const user = { name, email, password }
+    const result = await this.userService.save({ user })
+    return HttpHelper.ok(result)
   }
 }
