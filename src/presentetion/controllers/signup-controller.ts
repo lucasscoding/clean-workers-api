@@ -11,15 +11,12 @@ export class SignUpController implements ISignUpController {
   }
 
   async handle(httpRequest: ISignUpController.Request): Promise<ISignUpController.Result> {
-    const checks = ['email', 'name', 'password']
+    const checks = ['email', 'password']
     for(const param of checks) {
       if(!httpRequest[param]) {
         return HttpHelper.badRequest(new MissingParamError(param))
       }
     }
-    const { name, email, password } = httpRequest
-    const user = { name, email, password }
-    const result = await this.userService.save({ user })
-    return HttpHelper.ok(result)
+    return HttpHelper.ok(null)
   }
 }

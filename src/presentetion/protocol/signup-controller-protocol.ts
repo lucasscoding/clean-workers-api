@@ -6,7 +6,6 @@ export interface ISignUpController {
 
 export namespace ISignUpController {
   export type Request = {
-    name: string
     email: string
     password: string
   }

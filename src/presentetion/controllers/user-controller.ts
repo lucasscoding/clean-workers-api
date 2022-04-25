@@ -2,6 +2,7 @@ import { UserModel } from '@/data/models'
 import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
 import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
 import { HttpHelper } from '@/presentetion/helpers'
+import { InvalidParamError } from '../errors'
 export class UserController {
   private readonly loadUserService: LoadUserProtocol
   private readonly saveUserService: SaveUserProtocol
@@ -17,6 +18,12 @@ export class UserController {
   }
 
   async save(user: UserModel): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
+    const checks = ['email', 'name', 'password']
+    for(const param of checks) {
+      if(!user[param]) {
+        return HttpHelper.badRequest(new InvalidParamError(param))
+      }
+    }
     const saved = await this.saveUserService.save({ user })
     return HttpHelper.created(saved)
   }
