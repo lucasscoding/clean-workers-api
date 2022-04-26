@@ -1,7 +1,14 @@
-import { User } from '@/domain/models'
+import { UserModel } from '@/data/models'
 
-export interface LoadUserProtocol {
-  findOne(id: string): Promise<User>
-  findByEmail(email: string): Promise<User>
-  findAll(): Promise<Array<User>>
+export namespace ILoadUser {
+  export type Params = {
+    id?: string
+    email?: string
+  }
+  export type Result = UserModel
+}
+export interface ILoadUser {
+  findOne(params: ILoadUser.Params): Promise<ILoadUser.Result>
+  findByEmail(params: ILoadUser.Params): Promise<ILoadUser.Result>
+  findAll(): Promise<Array<ILoadUser.Result>>
 }

@@ -1,5 +1,5 @@
 import { UserModel } from '@/data/models'
-import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
+import { ILoadUser, ISaveUser } from '@/domain/protocols'
 import { UserController } from '@/presentetion/controllers'
 import { faker } from '@faker-js/faker'
 import { mock } from 'jest-mock-extended'
@@ -8,13 +8,13 @@ import { InvalidParamError } from '@/presentetion/errors'
 describe('User Controller', () => {
   let fakeUser: UserModel
   let userController: UserController
-  let loadUserService: LoadUserProtocol
-  let saveUserService: SaveUserProtocol
+  let loadUserService: ILoadUser
+  let saveUserService: ISaveUser
 
   beforeEach(() => {
     fakeUser = { id: faker.datatype.uuid(), name: faker.name.findName(), email: faker.internet.email(), password: faker.internet.password() }
-    loadUserService = mock<LoadUserProtocol>()
-    saveUserService = mock<SaveUserProtocol>()
+    loadUserService = mock<ILoadUser>()
+    saveUserService = mock<ISaveUser>()
     userController = new UserController(loadUserService, saveUserService)
   })
 

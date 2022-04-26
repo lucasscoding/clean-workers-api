@@ -1,12 +1,12 @@
 import { UserModel } from '@/data/models'
 
-export namespace SaveUserProtocol {
+export namespace ISaveUser {
   export type Params = {
     user: UserModel
   }
   export type Result = UserModel
 }
 
-export interface SaveUserProtocol {
-  save(params: SaveUserProtocol.Params): Promise<SaveUserProtocol.Result>
+export interface ISaveUser {
+  save(params: ISaveUser.Params): Promise<ISaveUser.Result>
 }

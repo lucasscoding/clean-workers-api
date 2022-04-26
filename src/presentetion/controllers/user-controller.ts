@@ -1,19 +1,19 @@
 import { UserModel } from '@/data/models'
-import { LoadUserProtocol, SaveUserProtocol } from '@/domain/protocols'
+import { ILoadUser, ISaveUser } from '@/domain/protocols'
 import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
 import { HttpHelper } from '@/presentetion/helpers'
 import { InvalidParamError } from '../errors'
 export class UserController {
-  private readonly loadUserService: LoadUserProtocol
-  private readonly saveUserService: SaveUserProtocol
+  private readonly loadUserService: ILoadUser
+  private readonly saveUserService: ISaveUser
 
-  constructor(loadUserService: LoadUserProtocol, saveUserService: SaveUserProtocol) {
+  constructor(loadUserService: ILoadUser, saveUserService: ISaveUser) {
     this.loadUserService = loadUserService
     this.saveUserService = saveUserService
   }
 
   async find(id: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.loadUserService.findOne(id)
+    const user = await this.loadUserService.findOne({ id })
     return HttpHelper.ok(user)
   }
 
@@ -34,7 +34,7 @@ export class UserController {
   }
 
   async findByEmail(email: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.loadUserService.findByEmail(email)
+    const user = await this.loadUserService.findByEmail({ email })
     return HttpHelper.ok(user)
   }
 }
