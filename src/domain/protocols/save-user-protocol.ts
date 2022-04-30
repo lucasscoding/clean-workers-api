@@ -1,9 +1,7 @@
 import { UserModel } from '@/data/models'
 
 export namespace ISaveUser {
-  export type Params = {
-    user: UserModel
-  }
+  export type Params = UserModel
   export type Result = UserModel
 }
 

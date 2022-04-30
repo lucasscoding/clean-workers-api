@@ -14,10 +14,10 @@ export class UserService implements ILoadUser, ISaveUser {
   }
 
   async save(params: ISaveUser.Params): Promise<ISaveUser.Result> {
-    if(params.user.name && params.user.email) {
-      const exist = await this.findBy({ email: params.user.email })
+    if(params.name && params.email) {
+      const exist = await this.findBy({ email: params.email })
       if(!exist) {
-        const saved = await this.userRepository.save(params.user)
+        const saved = await this.userRepository.save(params)
         return saved
       }
     }

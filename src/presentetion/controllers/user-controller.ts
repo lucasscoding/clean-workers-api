@@ -1,9 +1,10 @@
 import { UserModel } from '@/data/models'
 import { ILoadUser, ISaveUser } from '@/domain/protocols'
-import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
 import { HttpHelper } from '@/presentetion/helpers'
-import { InvalidParamError } from '../errors'
-export class UserController {
+import { InvalidParamError } from '@/presentetion/errors'
+import { IUserController } from '@/presentetion/protocol'
+
+export class UserController implements IUserController {
   private readonly loadUserService: ILoadUser
   private readonly saveUserService: ISaveUser
 
@@ -12,29 +13,25 @@ export class UserController {
     this.saveUserService = saveUserService
   }
 
-  async find(id: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.loadUserService.findBy({ id })
+  async find(params: IUserController.Params): Promise<IUserController.Result> {
+    const { id, email } = params
+    const user = await this.loadUserService.findBy({ id, email })
     return HttpHelper.ok(user)
   }
 
-  async save(user: UserModel): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
+  async save(user: UserModel): Promise<IUserController.Result> {
     const checks = ['email', 'name', 'password']
     for(const param of checks) {
       if(!user[param]) {
         return HttpHelper.badRequest(new InvalidParamError(param))
       }
     }
-    const saved = await this.saveUserService.save({ user })
+    const saved = await this.saveUserService.save(user)
     return HttpHelper.created(saved)
   }
 
-  async findAll(): Promise<HttpResponse<Array<UserModel> | HttpResponseMessage>> {
+  async findAll(): Promise<IUserController.Result<Array<UserModel>>> {
     const users = await this.loadUserService.findAll()
     return HttpHelper.ok(users)
-  }
-
-  async findByEmail(email: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.loadUserService.findBy({ email })
-    return HttpHelper.ok(user)
   }
 }

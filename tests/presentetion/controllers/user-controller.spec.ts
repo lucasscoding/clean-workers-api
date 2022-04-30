@@ -20,7 +20,7 @@ describe('User Controller', () => {
 
   it('should return 200 with correct id', async () => {
     jest.spyOn(loadUserService, 'findBy').mockResolvedValueOnce(fakeUser)
-    const httpResponse = await userController.find(fakeUser.id)
+    const httpResponse = await userController.find({ ...fakeUser, email: null })
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toMatchObject({ id: fakeUser.id })
@@ -44,7 +44,7 @@ describe('User Controller', () => {
 
   it('should return 200 when find a user by email', async () => {
     jest.spyOn(loadUserService, 'findBy').mockResolvedValueOnce(fakeUser)
-    const httpResponse = await userController.findByEmail(fakeUser.email)
+    const httpResponse = await userController.find({ ...fakeUser, id: null })
     expect(httpResponse).toBeTruthy()
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toMatchObject(fakeUser)
