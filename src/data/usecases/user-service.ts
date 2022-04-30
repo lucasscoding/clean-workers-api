@@ -15,7 +15,7 @@ export class UserService implements ILoadUser, ISaveUser {
 
   async save(params: ISaveUser.Params): Promise<ISaveUser.Result> {
     if(params.user.name && params.user.email) {
-      const exist = await this.findByEmail({ email: params.user.email })
+      const exist = await this.findBy({ email: params.user.email })
       if(!exist) {
         const saved = await this.userRepository.save(params.user)
         return saved
@@ -24,19 +24,13 @@ export class UserService implements ILoadUser, ISaveUser {
     return null
   }
 
-  async findOne(params: ILoadUser.Params): Promise<ILoadUser.Result> {
+  async findBy(params: ILoadUser.Params): Promise<ILoadUser.Result> {
+    let user = null
     if(params.id) {
-      const user = await this.userRepository.findById(params.id)
-      return user
+      user = await this.userRepository.findById(params.id)
+    } else if (params.email) {
+      user = await this.userRepository.findByEmail(params.email)
     }
-    return null
-  }
-
-  async findByEmail(params: ILoadUser.Params): Promise<ILoadUser.Result> {
-    if(params.email) {
-      const user = await this.userRepository.findByEmail(params.email)
-      return user
-    }
-    return null
+    return user
   }
 }

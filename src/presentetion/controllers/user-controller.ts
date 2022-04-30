@@ -13,7 +13,7 @@ export class UserController {
   }
 
   async find(id: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.loadUserService.findOne({ id })
+    const user = await this.loadUserService.findBy({ id })
     return HttpHelper.ok(user)
   }
 
@@ -34,7 +34,7 @@ export class UserController {
   }
 
   async findByEmail(email: string): Promise<HttpResponse<UserModel | HttpResponseMessage>> {
-    const user = await this.loadUserService.findByEmail({ email })
+    const user = await this.loadUserService.findBy({ email })
     return HttpHelper.ok(user)
   }
 }
