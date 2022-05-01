@@ -1,21 +1,17 @@
 import { UserModel } from '@/data/models'
-import { UserRepository } from '@/data/protocols'
+import { LoadUserRepository, UserRepository } from '@/data/protocols'
 import { User } from '@/domain/models'
 
 export class MongoRepository implements UserRepository {
+  findBy(params: LoadUserRepository.Params): Promise<UserModel> {
+    return null
+  }
+
   findAll(): Promise<Array<UserModel>> {
     return null
   }
 
-  save(user: UserModel): Promise<UserModel> {
-    return null
-  }
-
-  findById(id: string): Promise<UserModel> {
-    return null
-  }
-
-  findByEmail(email: string): Promise<User> {
+  async save(user: UserModel): Promise<User> {
     return null
   }
 }

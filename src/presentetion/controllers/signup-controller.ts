@@ -1,22 +1,23 @@
-import { ISignUpController } from '@/presentetion/protocol'
 import { MissingParamError } from '@/presentetion/errors'
 import { HttpHelper } from '@/presentetion/helpers'
-import { UserService } from '@/data/usecases'
+import { AddAccount } from '@/domain/usecases'
+import { SignUpAccountController } from '@/presentetion/protocol'
 
-export class SignUpController implements ISignUpController {
-  private readonly userService: UserService
+export class SignUpController implements SignUpAccountController {
+  private readonly addAccount: AddAccount
 
-  constructor(userService: UserService) {
-    this.userService = userService
+  constructor(addAccount: AddAccount) {
+    this.addAccount = addAccount
   }
 
-  async handle(httpRequest: ISignUpController.Request): Promise<ISignUpController.Result> {
+  async handle(httpRequest: SignUpAccountController.Request): SignUpAccountController.Result {
     const checks = ['email', 'password']
     for(const param of checks) {
       if(!httpRequest[param]) {
         return HttpHelper.badRequest(new MissingParamError(param))
       }
     }
-    return HttpHelper.ok(null)
+    const result = await this.addAccount.add(httpRequest)
+    return HttpHelper.ok(result)
   }
 }

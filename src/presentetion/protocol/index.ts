@@ -1,3 +1,2 @@
-export * from './controller-protocol'
-export * from './signup-controller-protocol'
+export * from './signup-account-controller'
 export * from './user-controller-protocol'

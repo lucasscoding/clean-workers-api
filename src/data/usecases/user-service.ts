@@ -25,12 +25,10 @@ export class UserService implements ILoadUser, ISaveUser {
   }
 
   async findBy(params: ILoadUser.Params): Promise<ILoadUser.Result> {
-    let user = null
-    if(params.id) {
-      user = await this.userRepository.findById(params.id)
-    } else if (params.email) {
-      user = await this.userRepository.findByEmail(params.email)
+    if(!params.id && !params.email) {
+      return null
     }
-    return user
+    const result = await this.userRepository.findBy({ id: params.id, email: params.email })
+    return result
   }
 }
