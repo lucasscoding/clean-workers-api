@@ -1,9 +1,9 @@
 import { UserModel } from '@/data/models'
 import { ILoadUser, ISaveUser } from '@/domain/protocols'
 import { UserController } from '@/presentetion/controllers'
+import { InvalidParamError } from '@/presentetion/errors'
 import { faker } from '@faker-js/faker'
 import { mock } from 'jest-mock-extended'
-import { InvalidParamError } from '@/presentetion/errors'
 
 describe('User Controller', () => {
   let fakeUser: UserModel
