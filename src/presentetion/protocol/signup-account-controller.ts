@@ -9,5 +9,5 @@ export namespace SignUpAccountController {
     email: string
     password: string
   }
-  export type Result = Promise<HttpResponse | any>
+  export type Result = Promise<HttpResponse>
 }

@@ -1,3 +1,4 @@
 import 'module-alias/register'
+import { AppServer } from '@/main/app-server'
 
-console.log('works')
+AppServer.run()
