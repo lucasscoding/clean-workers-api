@@ -1,5 +1,5 @@
 import { SignUpController } from '@/presentetion/controllers'
-import { MissingParamError } from '@/presentetion/errors'
+import { InvalidParamError, MissingParamError } from '@/presentetion/errors'
 import { AddAccount } from '@/domain/usecases'
 import { Account } from '@/domain/models'
 import { SignUpAccountController } from '@/presentetion/protocol'
@@ -19,11 +19,11 @@ describe('SignUpController', () => {
     signUpController = new SignUpController(addAccount)
   })
 
-  it('should return 200 when user sign up', async () => {
+  it('should return 201 when user sign up', async () => {
     addAccount.add.mockResolvedValueOnce(account)
     const result = await signUpController.handle(fakeRequest)
     expect(result).toBeTruthy()
-    expect(result.statusCode).toBe(200)
+    expect(result.statusCode).toBe(201)
     expect(result.body).toBe(account)
     expect(addAccount.add).toHaveBeenCalledTimes(1)
   })
@@ -32,13 +32,27 @@ describe('SignUpController', () => {
     const result = await signUpController.handle({ ...fakeRequest, email: null })
     expect(result).toBeTruthy()
     expect(result.statusCode).toBe(400)
-    expect(result.body).toEqual(new MissingParamError('email'))
+    expect(result.body).toEqual({ sucess: false, message: new MissingParamError('email').message })
   })
 
   it('should return 400 if password is missing', async () => {
     const result = await signUpController.handle({ ...fakeRequest, password: null })
     expect(result).toBeTruthy()
     expect(result.statusCode).toBe(400)
-    expect(result.body).toEqual(new MissingParamError('password'))
+    expect(result.body).toEqual({ sucess: false, message: new MissingParamError('password').message })
+  })
+
+  it('should return 400 if email less than 4 digit', async () => {
+    const result = await signUpController.handle({ ...fakeRequest, email: '123' })
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toEqual({ sucess: false, message: new InvalidParamError('email').message })
+  })
+
+  it('should return 400 if password less than 4 digit', async () => {
+    const result = await signUpController.handle({ ...fakeRequest, password: '123' })
+    expect(result).toBeTruthy()
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toEqual({ sucess: false, message: new InvalidParamError('password').message })
   })
 })

@@ -1,11 +1,12 @@
-import { HttpResponse } from '@/presentetion/models'
+import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
 export class HttpHelper {
   public static readonly OK: number = 200
   public static readonly CREATED: number = 201
   public static readonly BAD_REQUEST: number = 400
 
   static badRequest(error: Error): Promise<HttpResponse> {
-    const result = { body: error, statusCode: HttpHelper.BAD_REQUEST }
+    const body: HttpResponseMessage = { sucess: false, message: error.message }
+    const result = { body, statusCode: HttpHelper.BAD_REQUEST }
     return Promise.resolve(result)
   }
 

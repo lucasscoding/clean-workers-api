@@ -1,4 +1,4 @@
-import { MissingParamError } from '@/presentetion/errors'
+import { InvalidParamError, MissingParamError } from '@/presentetion/errors'
 import { HttpHelper } from '@/presentetion/helpers'
 import { AddAccount } from '@/domain/usecases'
 import { SignUpAccountController } from '@/presentetion/protocol'
@@ -16,8 +16,11 @@ export class SignUpController implements SignUpAccountController {
       if(!httpRequest[param]) {
         return HttpHelper.badRequest(new MissingParamError(param))
       }
+      if(httpRequest[param].length < 4) {
+        return HttpHelper.badRequest(new InvalidParamError(param))
+      }
     }
     const result = await this.addAccount.add(httpRequest)
-    return HttpHelper.ok(result)
+    return HttpHelper.created(result)
   }
 }

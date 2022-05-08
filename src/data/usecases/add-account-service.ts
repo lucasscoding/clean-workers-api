@@ -1,6 +1,6 @@
 import { Account } from '@/domain/models'
 import { AddAccount } from '@/domain/usecases'
-import { AccountRepository } from '@/infra/protocols'
+import { AccountRepository } from '@/data/protocols'
 
 export class AddAccountService implements AddAccount {
   private readonly accountRepository: AccountRepository

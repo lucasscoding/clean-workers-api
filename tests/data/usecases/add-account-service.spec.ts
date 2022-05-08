@@ -1,5 +1,5 @@
 import { Account } from '@/domain/models'
-import { AccountRepository } from '@/infra/protocols'
+import { AccountRepository } from '@/data/protocols'
 import { mock, MockProxy } from 'jest-mock-extended'
 import { AddAccountService } from '@/data/usecases'
 import faker from '@faker-js/faker'

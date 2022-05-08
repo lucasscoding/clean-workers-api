@@ -1,1 +1,1 @@
-export * from './mongo-db-repository'
+export * from './mongodb'
