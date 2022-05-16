@@ -5,6 +5,7 @@ import { Account } from '@/domain/models'
 import { SignUpAccountController } from '@/presentetion/protocol'
 import { mock, MockProxy } from 'jest-mock-extended'
 import faker from '@faker-js/faker'
+import { EmailValidatorAdapter, PasswordValidatorAdapter } from '@/presentetion/adapters'
 
 describe('SignUpController', () => {
   let signUpController: SignUpController
@@ -16,7 +17,7 @@ describe('SignUpController', () => {
     addAccount = mock()
     fakeRequest = { email: faker.internet.email(), password: faker.internet.password() }
     account = { id: faker.datatype.uuid(), name: faker.name.findName(), ...fakeRequest }
-    signUpController = new SignUpController(addAccount)
+    signUpController = new SignUpController(addAccount, [new EmailValidatorAdapter(), new PasswordValidatorAdapter()])
   })
 
   it('should return 201 when user sign up', async () => {
