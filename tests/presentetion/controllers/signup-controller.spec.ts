@@ -2,10 +2,10 @@ import { SignUpController } from '@/presentetion/controllers'
 import { InvalidParamError, MissingParamError } from '@/presentetion/errors'
 import { AddAccount } from '@/domain/usecases'
 import { Account } from '@/domain/models'
-import { SignUpAccountController } from '@/presentetion/protocol'
+import { SignUpAccountController } from '@/presentetion/protocols'
 import { mock, MockProxy } from 'jest-mock-extended'
 import faker from '@faker-js/faker'
-import { EmailValidatorAdapter, PasswordValidatorAdapter } from '@/presentetion/adapters'
+import { ValidatorBuilder } from '@/main/builders'
 
 describe('SignUpController', () => {
   let signUpController: SignUpController
@@ -17,7 +17,7 @@ describe('SignUpController', () => {
     addAccount = mock()
     fakeRequest = { email: faker.internet.email(), password: faker.internet.password() }
     account = { id: faker.datatype.uuid(), name: faker.name.findName(), ...fakeRequest }
-    signUpController = new SignUpController(addAccount, [new EmailValidatorAdapter(), new PasswordValidatorAdapter()])
+    signUpController = new SignUpController(addAccount, ValidatorBuilder.builder().email().password().build())
   })
 
   it('should return 201 when user sign up', async () => {

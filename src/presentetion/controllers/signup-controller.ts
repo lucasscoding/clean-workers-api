@@ -1,7 +1,7 @@
 import { InvalidParamError, MissingParamError } from '@/presentetion/errors'
 import { HttpHelper } from '@/presentetion/helpers'
 import { AddAccount } from '@/domain/usecases'
-import { SignUpAccountController, Validator } from '@/presentetion/protocol'
+import { SignUpAccountController, Validator } from '@/presentetion/protocols'
 
 export class SignUpController implements SignUpAccountController {
   private readonly addAccount: AddAccount
@@ -20,7 +20,7 @@ export class SignUpController implements SignUpAccountController {
       }
     }
     for(const validator of this.validators) {
-      const result = validator.verify({ email: httpRequest.email, password: httpRequest.password })
+      const result = validator.verify(httpRequest)
       if(!result.success) {
         return HttpHelper.badRequest(new InvalidParamError(result.message))
       }
