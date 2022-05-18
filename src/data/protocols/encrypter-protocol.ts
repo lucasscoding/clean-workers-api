@@ -1,4 +1,4 @@
 
 export interface Encrypter {
-  encode(encrypt: string): string
+  encode(encrypt: string): Promise<string>
 }
