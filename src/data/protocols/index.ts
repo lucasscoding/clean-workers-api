@@ -1,1 +1,2 @@
-export * from './account-repository'
+export * from './account-repository-protocol'
+export * from './encrypter-protocol'
