@@ -2,7 +2,7 @@ import { AddAccountService } from '@/data/usecases'
 import { AccountMongoDatabase } from '@/infra/databases'
 import { SignUpController } from '@/presentetion/controllers'
 import { ValidatorBuilder } from '@/main/builders'
-import { BcryptEncrypterAdapter } from '../adapters/bcrypt-encrypter-adapter'
+import { BcryptEncrypterAdapter } from '@/infra/adapters'
 
 export class AccountFactory {
   public static createSignUpController(): SignUpController {
