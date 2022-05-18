@@ -4,7 +4,7 @@ import { AddAccount } from '@/domain/usecases'
 import { Account } from '@/domain/models'
 import { SignUpAccountController } from '@/presentetion/protocols'
 import { mock, MockProxy } from 'jest-mock-extended'
-import faker from '@faker-js/faker'
+import Faker from '@faker-js/faker'
 import { ValidatorBuilder } from '@/main/builders'
 
 describe('SignUpController', () => {
@@ -15,8 +15,8 @@ describe('SignUpController', () => {
 
   beforeEach(() => {
     addAccount = mock()
-    fakeRequest = { email: faker.internet.email(), password: faker.internet.password() }
-    account = { id: faker.datatype.uuid(), name: faker.name.findName(), ...fakeRequest }
+    fakeRequest = { email: Faker.internet.email(), password: Faker.internet.password() }
+    account = { id: Faker.datatype.uuid(), name: Faker.name.findName(), ...fakeRequest }
     signUpController = new SignUpController(addAccount, ValidatorBuilder.builder().email().password().build())
   })
 

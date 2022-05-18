@@ -2,7 +2,7 @@ import { Account } from '@/domain/models'
 import { AccountRepository, Encrypter } from '@/data/protocols'
 import { mock, MockProxy } from 'jest-mock-extended'
 import { AddAccountService } from '@/data/usecases'
-import faker from '@faker-js/faker'
+import Faker from '@faker-js/faker'
 
 describe('AddAccountService', () => {
   let accountRepository: MockProxy<AccountRepository>
@@ -13,7 +13,7 @@ describe('AddAccountService', () => {
   beforeEach(() => {
     accountRepository = mock()
     bcryptEncrypter = mock()
-    account = { id: faker.datatype.uuid(), name: faker.name.findName(), email: faker.internet.email(), password: faker.internet.password() }
+    account = { id: Faker.datatype.uuid(), name: Faker.name.findName(), email: Faker.internet.email(), password: Faker.internet.password() }
     addAccountService = new AddAccountService(accountRepository, bcryptEncrypter)
   })
 
