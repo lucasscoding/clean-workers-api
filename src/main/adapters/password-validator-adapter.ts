@@ -1,4 +1,4 @@
-import { Validator } from '@/presentetion/protocols'
+import { Validator } from '@/presentation/protocols'
 
 export class PasswordValidatorAdapter implements Validator {
   verify(input: Validator.Input): Validator.Output {

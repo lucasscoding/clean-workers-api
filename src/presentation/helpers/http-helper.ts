@@ -1,4 +1,4 @@
-import { HttpResponse, HttpResponseMessage } from '@/presentetion/models'
+import { HttpResponse, HttpResponseMessage } from '@/presentation/models'
 export class HttpHelper {
   public static readonly OK: number = 200
   public static readonly CREATED: number = 201

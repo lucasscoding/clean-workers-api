@@ -1,7 +1,7 @@
-import { InvalidParamError, MissingParamError } from '@/presentetion/errors'
-import { HttpHelper } from '@/presentetion/helpers'
+import { InvalidParamError, MissingParamError } from '@/presentation/errors'
+import { HttpHelper } from '@/presentation/helpers'
 import { AddAccount } from '@/domain/usecases'
-import { SignUpAccountController, Validator } from '@/presentetion/protocols'
+import { SignUpAccountController, Validator } from '@/presentation/protocols'
 
 export class SignUpController implements SignUpAccountController {
   private readonly addAccount: AddAccount

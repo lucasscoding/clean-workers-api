@@ -1,4 +1,4 @@
-import { HttpResponse } from '@/presentetion/models'
+import { HttpResponse } from '@/presentation/models'
 
 export interface SignUpAccountController {
   handle(httpRequest: SignUpAccountController.Request): SignUpAccountController.Result

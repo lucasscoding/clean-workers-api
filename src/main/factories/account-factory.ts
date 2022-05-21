@@ -1,6 +1,6 @@
 import { AddAccountService } from '@/data/usecases'
 import { AccountMongoDatabase } from '@/infra/databases'
-import { SignUpController } from '@/presentetion/controllers'
+import { SignUpController } from '@/presentation/controllers'
 import { ValidatorBuilder } from '@/main/builders'
 import { BcryptEncrypterAdapter } from '@/infra/encrypters'
 

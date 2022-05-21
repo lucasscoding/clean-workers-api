@@ -1,4 +1,4 @@
-import { Validator } from '@/presentetion/protocols'
+import { Validator } from '@/presentation/protocols'
 import { EmailValidatorAdapter, PasswordValidatorAdapter } from '@/main/adapters'
 
 export class ValidatorBuilder {
