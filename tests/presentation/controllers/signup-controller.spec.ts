@@ -25,7 +25,7 @@ describe('SignUpController', () => {
     const result = await signUpController.handle(fakeRequest)
     expect(result).toBeTruthy()
     expect(result.statusCode).toBe(201)
-    expect(result.body).toBe(account)
+    expect(result.body.email).toBe(account.email)
     expect(addAccount.add).toHaveBeenCalledTimes(1)
   })
 

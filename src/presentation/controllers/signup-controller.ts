@@ -25,7 +25,11 @@ export class SignUpController implements SignUpAccountController {
         return HttpHelper.badRequest(new InvalidParamError(result.message))
       }
     }
-    const result = await this.addAccount.add(httpRequest)
-    return HttpHelper.created(result)
+    try {
+      const { id, email } = await this.addAccount.add(httpRequest)
+      return HttpHelper.created({ id, email })
+    } catch (error) {
+      return HttpHelper.internalServerError(error)
+    }
   }
 }

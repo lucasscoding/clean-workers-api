@@ -3,6 +3,7 @@ export class HttpHelper {
   public static readonly OK: number = 200
   public static readonly CREATED: number = 201
   public static readonly BAD_REQUEST: number = 400
+  public static readonly INTERNAL_SERVER_ERROR = 500
 
   static badRequest(error: Error): Promise<HttpResponse> {
     const body: HttpResponseMessage = { sucess: false, message: error.message }
@@ -17,6 +18,12 @@ export class HttpHelper {
 
   static created<T>(body: T): Promise<HttpResponse<T>> {
     const result = { body: body, statusCode: HttpHelper.CREATED }
+    return Promise.resolve(result)
+  }
+
+  static internalServerError(error: Error): Promise<HttpResponse> {
+    const body: HttpResponseMessage = { sucess: false, message: error.message }
+    const result = { body, statusCode: HttpHelper.INTERNAL_SERVER_ERROR }
     return Promise.resolve(result)
   }
 }

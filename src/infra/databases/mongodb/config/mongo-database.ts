@@ -1,11 +1,10 @@
 import { MongoClient } from 'mongodb'
-
 export class MongoDatabaseSingleton {
   private static instance: MongoDatabaseSingleton
   private readonly mongoClient: Promise<MongoClient>
 
   private constructor() {
-    this.mongoClient = MongoClient.connect(process.env.MONGO_URL)
+    this.mongoClient = MongoClient.connect(process.env.MONGO_URL ? process.env.MONGO_URL : 'mongodb://127.0.0.1:27017/workers')
   }
 
   public static getInstance(): MongoDatabaseSingleton {
