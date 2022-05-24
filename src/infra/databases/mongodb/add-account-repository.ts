@@ -1,5 +1,6 @@
 import { AccountRepository } from '@/data/protocols'
-import { Collection, MongoClient } from 'mongodb'
+import { Account } from '@/domain/models'
+import { Collection, MongoClient, ObjectId } from 'mongodb'
 
 export class AccountMongoDatabase implements AccountRepository {
   private readonly collection: Collection
@@ -8,9 +9,16 @@ export class AccountMongoDatabase implements AccountRepository {
     this.collection = mongoClient.db().collection('accounts')
   }
 
-  async save(account: AccountRepository.Params): Promise<AccountRepository.Result> {
-    const data = { _id: null, ...account }
+  async save(params: AccountRepository.Params): Promise<AccountRepository.Result> {
+    const data = { _id: null, ...params, timestamp: new Date() }
     await this.collection.insertOne(data)
-    return { id: data._id, name: account.name, ...account }
+    const account = { id: data._id, name: params.name, ...params }
+    return account
+  }
+
+  async find(input: AccountRepository.Input): Promise<AccountRepository.Result> {
+    const query = { $or: [{ _id: new ObjectId(input.id) }, { email: input.email }] }
+    const account = await this.collection.findOne<Account>(query)
+    return account
   }
 }

@@ -1,7 +1,7 @@
 import { HttpResponse } from '@/presentation/models'
 
 export interface SignUpAccountController {
-  handle(httpRequest: SignUpAccountController.Request): SignUpAccountController.Result
+  handle(httpRequest: SignUpAccountController.Request): Promise<SignUpAccountController.Result>
 }
 
 export namespace SignUpAccountController {
@@ -9,5 +9,12 @@ export namespace SignUpAccountController {
     email: string
     password: string
   }
-  export type Result = Promise<HttpResponse>
+
+  export type Output = {
+    id: string
+    name: string
+    email: string
+  }
+
+  export type Result = HttpResponse<Output>
 }

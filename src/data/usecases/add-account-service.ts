@@ -13,7 +13,11 @@ export class AddAccountService implements AddAccount {
 
   async add(account: AddAccount.Params): Promise<Account> {
     const encryptPassword = await this.encrypter.encode(account.password)
-    const result = this.accountRepository.save({ ...account, password: encryptPassword })
-    return result
+    const exist = await this.accountRepository.find({ email: account.email })
+    if(!exist) {
+      const result = await this.accountRepository.save({ ...account, password: encryptPassword })
+      return result
+    }
+    return null
   }
 }

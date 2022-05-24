@@ -12,7 +12,7 @@ export class SignUpController implements SignUpAccountController {
     this.validators = validators
   }
 
-  async handle(httpRequest: SignUpAccountController.Request): SignUpAccountController.Result {
+  async handle(httpRequest: SignUpAccountController.Request): Promise<SignUpAccountController.Result> {
     const checks = ['email', 'password']
     for(const param of checks) {
       if(!httpRequest[param]) {
@@ -26,8 +26,12 @@ export class SignUpController implements SignUpAccountController {
       }
     }
     try {
-      const { id, email } = await this.addAccount.add(httpRequest)
-      return HttpHelper.created({ id, email })
+      const result = await this.addAccount.add(httpRequest)
+      if(!result) {
+        return HttpHelper.badRequest(new InvalidParamError('email'))
+      }
+      const { id, name, email } = result
+      return HttpHelper.created<SignUpAccountController.Output>({ id, name, email })
     } catch (error) {
       return HttpHelper.internalServerError(error)
     }
