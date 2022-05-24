@@ -11,6 +11,6 @@ export namespace AccountRepository {
 }
 
 export interface AccountRepository {
-  save(params: AccountRepository.Params): Promise<AccountRepository.Result>
+  save(account: AccountRepository.Params): Promise<AccountRepository.Result>
   find(input: AccountRepository.Input): Promise<AccountRepository.Result>
 }
