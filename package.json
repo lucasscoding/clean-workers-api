@@ -10,7 +10,7 @@
     "test:ci": "npm test -- --coverage",
     "start": "npm run build && node dist/main/entrypoint.js",
     "build": "tsc -p tsconfig-build.json",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node src/main/entrypoint.ts' -e ts",
+    "dev": "nodemon --watch 'src/' --exec 'npm run build && ts-node src/main/entrypoint.ts' -e ts",
     "prepare": "husky install"
   },
   "keywords": [],
