@@ -1,6 +1,7 @@
 import { AccountRepository } from '@/data/protocols'
 import { Account } from '@/domain/models'
 import { Collection, MongoClient, ObjectId } from 'mongodb'
+import { MongoHelper } from './mongo-helper'
 
 export class AccountMongoDatabase implements AccountRepository {
   private readonly collection: Collection
@@ -17,6 +18,7 @@ export class AccountMongoDatabase implements AccountRepository {
 
   async find(input: AccountRepository.Input): Promise<AccountRepository.Result> {
     const query = { $or: [{ _id: new ObjectId(input.id) }, { email: input.email }] }
-    return await this.collection.findOne<Account>(query)
+    const data = await this.collection.findOne(query)
+    return MongoHelper.parser<Account>(data)
   }
 }

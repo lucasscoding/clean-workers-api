@@ -11,6 +11,7 @@ export class LoadAccountController implements LoadController {
 
   async load(httpRequest: LoadController.Request): Promise<LoadController.Result> {
     const result = await this.loadAccount.load({ id: httpRequest.id })
-    return HttpHelper.ok(result)
+    const { id, name, email } = result
+    return HttpHelper.ok<LoadController.Output>({ id, name, email })
   }
 }

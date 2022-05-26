@@ -10,4 +10,13 @@ export class AccountAdapter {
       response.status(signUpResponse.statusCode).json(signUpResponse.body)
     }
   }
+
+  public static loadAdapter(): RequestHandler {
+    return async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+      const { id } = request.params
+      const loadAccountController = await AccountFactory.createLoadAccountController()
+      const loadResponse = await loadAccountController.load({ id })
+      response.status(loadResponse.statusCode).json(loadResponse.body)
+    }
+  }
 }

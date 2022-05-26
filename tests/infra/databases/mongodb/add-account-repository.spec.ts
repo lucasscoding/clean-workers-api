@@ -1,6 +1,6 @@
 import { AccountRepository } from '@/data/protocols'
 import { AccountMongoDatabase } from '@/infra/databases'
-import { MongoDatabaseSingleton } from '@/infra/databases/mongodb/config'
+import { MongoDatabaseSingleton } from '@/infra/databases/mongodb'
 import Faker from '@faker-js/faker'
 
 describe('AccountMongoDatabase', () => {

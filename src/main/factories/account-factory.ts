@@ -3,7 +3,7 @@ import { AccountMongoDatabase } from '@/infra/databases'
 import { SignUpController, LoadAccountController } from '@/presentation/controllers'
 import { ValidatorBuilder } from '@/main/builders'
 import { BcryptEncrypterAdapter } from '@/infra/encrypters'
-import { MongoDatabaseSingleton } from '@/infra/databases/mongodb/config'
+import { MongoDatabaseSingleton } from '@/infra/databases/mongodb'
 
 export class AccountFactory {
   public static async createAccountMongoDatabase(): Promise<AccountMongoDatabase> {
