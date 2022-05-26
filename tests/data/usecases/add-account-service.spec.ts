@@ -18,10 +18,16 @@ describe('AddAccountService', () => {
   })
 
   it('should add a new account', async () => {
+    accountRepository.find.mockResolvedValueOnce(null)
     accountRepository.save.mockResolvedValueOnce(account)
     const result = await addAccountService.add(account)
     expect(result).toBeTruthy()
     expect(accountRepository.save).toHaveBeenCalledTimes(1)
+  })
+  it('should not add a new account', async () => {
+    accountRepository.find.mockResolvedValueOnce(account)
+    const result = await addAccountService.add(account)
+    expect(result).not.toBeTruthy()
   })
 
   it('should encrypt the password', async () => {

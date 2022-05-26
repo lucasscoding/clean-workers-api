@@ -26,4 +26,12 @@ describe('AccountMongoDatabase', () => {
     expect(result.id).not.toBeNull()
     expect(result.email).toBe(account.email)
   })
+
+  it('should find a account on mongodb', async () => {
+    const expected = await accountMongoDatabase.save(account)
+    const result = await accountMongoDatabase.find({ id: expected.id })
+    expect(result).toBeTruthy()
+    expect(result.id).not.toBeNull()
+    expect(result.email).toBe(account.email)
+  })
 })

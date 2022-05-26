@@ -19,6 +19,6 @@ export class AccountMongoDatabase implements AccountRepository {
   async find(input: AccountRepository.Input): Promise<AccountRepository.Result> {
     const query = { $or: [{ _id: new ObjectId(input.id) }, { email: input.email }] }
     const data = await this.collection.findOne(query)
-    return MongoHelper.parser<Account>(data)
+    return data && MongoHelper.parser<Account>(data)
   }
 }
