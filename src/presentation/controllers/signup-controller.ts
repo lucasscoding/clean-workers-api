@@ -28,7 +28,7 @@ export class SignUpController implements SignUpAccountController {
     try {
       const result = await this.addAccount.add(httpRequest)
       if(!result) {
-        return HttpHelper.badRequest(new InvalidParamError('email'))
+        return HttpHelper.conflict(new InvalidParamError('email'))
       }
       const { id, name, email } = result
       return HttpHelper.created<SignUpAccountController.Output>({ id, name, email })
