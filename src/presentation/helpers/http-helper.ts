@@ -4,7 +4,7 @@ export class HttpHelper {
   public static readonly CREATED: number = 201
   public static readonly BAD_REQUEST: number = 400
   public static readonly CONFLICT: number = 409
-  public static readonly INTERNAL_SERVER_ERROR = 500
+  public static readonly INTERNAL_SERVER_ERROR: number = 500
 
   static ok<T>(body: T): Promise<HttpResponse<T>> {
     const result = { body: body, statusCode: HttpHelper.OK }
