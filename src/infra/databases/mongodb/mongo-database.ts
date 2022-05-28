@@ -20,7 +20,7 @@ export class MongoDatabaseSingleton {
   }
 
   async disconnect(): Promise<void> {
-    this.mongoClient.close()
+    this.mongoClient?.close()
     this.mongoClient = null
   }
 }
