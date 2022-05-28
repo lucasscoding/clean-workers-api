@@ -14,13 +14,14 @@ export class MongoDatabaseSingleton {
 
   async connect(): Promise<MongoClient> {
     if(!this.mongoClient) {
-      this.mongoClient = await MongoClient.connect(process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/workers')
+      this.mongoClient = await MongoClient.connect(process.env.MONGO_URL)
     }
     return this.mongoClient
   }
 
   async disconnect(): Promise<void> {
-    this.mongoClient?.close()
+    await this.connect()
+    await this.mongoClient.close()
     this.mongoClient = null
   }
 }
