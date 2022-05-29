@@ -1,5 +1,6 @@
 import { Account } from '@/domain/models'
 import { LoadAccount } from '@/domain/usecases'
+import { ValidatorBuilder } from '@/main/builders'
 import { LoadAccountController } from '@/presentation/controllers'
 import Faker from '@faker-js/faker'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -11,8 +12,8 @@ describe('LoadAccountController', () => {
 
   beforeEach(() => {
     loadAccount = mock()
-    account = { id: Faker.datatype.uuid(), name: Faker.name.findName(), email: Faker.internet.email(), password: Faker.internet.password() }
-    loadAccountController = new LoadAccountController(loadAccount)
+    account = { id: Faker.database.mongodbObjectId(), name: Faker.name.findName(), email: Faker.internet.email(), password: Faker.internet.password() }
+    loadAccountController = new LoadAccountController(loadAccount, ValidatorBuilder.builder().id().build())
   })
 
   it('should return 200 when find a account', async () => {

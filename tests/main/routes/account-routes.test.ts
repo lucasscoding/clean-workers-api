@@ -2,7 +2,8 @@ import request from 'supertest'
 import { ExpressFactory } from '@/main/factories'
 import { AccountRouter } from '@/main/routes'
 import { HttpHelper } from '@/presentation/helpers'
-import { MongoDatabaseSingleton } from '@/infra/databases'
+import { AccountMongoDatabase, MongoDatabaseSingleton } from '@/infra/databases'
+import Faker from '@faker-js/faker'
 
 describe('Account Routes', () => {
   const app = ExpressFactory.createExpressConfig()
@@ -25,6 +26,15 @@ describe('Account Routes', () => {
       }
       await request(app).post('/account/signup').send(payload).expect(HttpHelper.CREATED)
       await request(app).post('/account/signup').send(payload).expect(HttpHelper.CONFLICT)
+    })
+  })
+
+  describe('GET /account/:id', () => {
+    it('should return 200 and find account', async () => {
+      const accountMongoDatabase = new AccountMongoDatabase(await MongoDatabaseSingleton.getInstance().connect())
+      const result = await accountMongoDatabase.save({ name: Faker.name.findName(), email: Faker.internet.email(), password: Faker.internet.password() })
+      await request(app).get('/account/' + result.id).expect(HttpHelper.OK)
+      await request(app).get('/account/' + Faker.database.mongodbObjectId()).expect(HttpHelper.NOT_FOUND)
     })
   })
 })
