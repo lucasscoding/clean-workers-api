@@ -13,7 +13,7 @@ export class AccountMongoDatabase implements AccountRepository {
   async save(account: AccountRepository.Params): Promise<AccountRepository.Result> {
     const data = { _id: null, ...account, timestamp: new Date() }
     await this.collection.insertOne(data)
-    return { id: data._id, name: account.name, ...account }
+    return { id: data._id.toHexString(), name: account.name, ...account }
   }
 
   async find(input: AccountRepository.Input): Promise<AccountRepository.Result> {

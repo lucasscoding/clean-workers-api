@@ -3,6 +3,7 @@ export class HttpHelper {
   public static readonly OK: number = 200
   public static readonly CREATED: number = 201
   public static readonly BAD_REQUEST: number = 400
+  public static readonly NOT_FOUND: number = 404
   public static readonly CONFLICT: number = 409
   public static readonly INTERNAL_SERVER_ERROR: number = 500
 
@@ -19,6 +20,11 @@ export class HttpHelper {
   static badRequest(error: Error): Promise<HttpResponse> {
     const body: HttpResponseMessage = { sucess: false, message: error.message }
     const result = { body, statusCode: HttpHelper.BAD_REQUEST }
+    return Promise.resolve(result)
+  }
+
+  static notFound(): Promise<HttpResponse> {
+    const result = { statusCode: HttpHelper.NOT_FOUND }
     return Promise.resolve(result)
   }
 

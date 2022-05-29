@@ -1,5 +1,5 @@
 import { Validator } from '@/presentation/protocols'
-import { EmailValidatorAdapter, PasswordValidatorAdapter } from '@/main/adapters'
+import { EmailValidatorAdapter, PasswordValidatorAdapter, IdValidatorAdapter } from '@/main/adapters'
 
 export class ValidatorBuilder {
   private readonly validators: Array<Validator> = []
@@ -17,6 +17,11 @@ export class ValidatorBuilder {
 
   public password(): ValidatorBuilder {
     this.validators.push(new PasswordValidatorAdapter())
+    return this
+  }
+
+  public id(): ValidatorBuilder {
+    this.validators.push(new IdValidatorAdapter())
     return this
   }
 

@@ -23,6 +23,7 @@ export class AccountFactory {
   public static async createLoadAccountController(): Promise<LoadAccountController> {
     const accountMongoDatabase = await AccountFactory.createAccountMongoDatabase()
     const loadAccountService = new LoadAccountService(accountMongoDatabase)
-    return new LoadAccountController(loadAccountService)
+    const validators = ValidatorBuilder.builder().id().build()
+    return new LoadAccountController(loadAccountService, validators)
   }
 }

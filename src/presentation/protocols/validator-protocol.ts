@@ -1,6 +1,7 @@
 
 export namespace Validator {
   export type Input = {
+    id?: string
     email?: string
     password?: string
   }
